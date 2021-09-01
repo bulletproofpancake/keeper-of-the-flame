@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
@@ -5,24 +6,30 @@ public class PlayerAnimations : MonoBehaviour
     private Animator _animator;
     private PlayerInput _input;
     private PlayerMovement _movement;
+    private PlayerCombat _combat;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _input = GetComponent<PlayerInput>();
         _movement = GetComponent<PlayerMovement>();
+        _combat = GetComponent<PlayerCombat>();
     }
 
     private void OnEnable()
     {
         _input.Jump += Jump;
         _input.Attack += Attack;
+        _combat.GetDamaged += GetDamaged;
+        _combat.OnDeath += DeathAnimation;
     }
 
     private void OnDisable()
     {
         _input.Jump -= Jump;
         _input.Attack -= Attack;
+        _combat.GetDamaged -= GetDamaged;
+        _combat.OnDeath -= DeathAnimation;
     }
 
     private void Update()
@@ -40,6 +47,22 @@ public class PlayerAnimations : MonoBehaviour
     private void Attack()
     {
         _animator.SetTrigger(_movement.IsGrounded ? "Attack3" : "Attack1");
+    }
+
+    private void GetDamaged()
+    {
+        _animator.SetTrigger("Hurt");
+    }
+
+    private void DeathAnimation()
+    {
+        StartCoroutine(DeathRoutine());
+    }
+    private IEnumerator DeathRoutine()
+    {
+        _animator.SetTrigger("Hurt");
+        yield return new WaitForSeconds(0.273f);
+        _animator.SetTrigger("Death");
     }
     
 }

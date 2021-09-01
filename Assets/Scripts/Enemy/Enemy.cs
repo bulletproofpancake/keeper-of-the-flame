@@ -3,14 +3,22 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Health")]
     [SerializeField] private float maxHealth;
     
-    [Header("Attacks")]
+    [Header("Attack Detection")]
     [SerializeField] private Transform eyes;
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private float chaseRange;
-    [SerializeField] private float stanceRange;
+    [SerializeField] private float chaseViewRange;
+    [SerializeField] private float stanceViewRange;
+    [SerializeField] private float attackViewRange;
+
+    [Header("Attack Execution")]
+    [SerializeField] private float damage;
+    [SerializeField] private Transform attackPos;
     [SerializeField] private float attackRange;
+    [SerializeField] private float startTimeBtwAttack;
+    private float _timeBtwAttack;
     
     private float _currentHealth;
     private Animator _animator;
@@ -30,6 +38,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _currentHealth = maxHealth;
+        _timeBtwAttack = startTimeBtwAttack;
         _collider.enabled = true;
         StartCoroutine(DeathRoutine());
     }
@@ -38,10 +47,19 @@ public class Enemy : MonoBehaviour
     {
         if (_currentHealth <= 0) { _isDead = true; }
 
-        _isPlayerWithinChase = Physics2D.Raycast(eyes.position, Vector2.left, chaseRange, playerLayer);
-        _isPlayerWithinStance = Physics2D.Raycast(eyes.position, Vector2.left, stanceRange, playerLayer);
-        _isPlayerWithinAttack = Physics2D.Raycast(eyes.position, Vector2.left, attackRange, playerLayer);
-
+        if (_timeBtwAttack <= 0)
+        {
+            _canAttack = true;
+        }
+        else
+        {
+            _canAttack = false;
+            _timeBtwAttack -= Time.deltaTime;
+        }
+        
+        _isPlayerWithinChase = Physics2D.Raycast(eyes.position, Vector2.left, chaseViewRange, playerLayer);
+        _isPlayerWithinStance = Physics2D.Raycast(eyes.position, Vector2.left, stanceViewRange, playerLayer);
+        _isPlayerWithinAttack = Physics2D.Raycast(eyes.position, Vector2.left, attackViewRange, playerLayer);
         
         if (_isPlayerWithinChase)
         {
@@ -53,9 +71,11 @@ public class Enemy : MonoBehaviour
                 _animator.SetInteger("AnimState", 1);
             }
 
-            if (_isPlayerWithinAttack)
+            if (_isPlayerWithinAttack && _canAttack)
             {
-                Attack();
+                var player = Physics2D.Raycast(eyes.position, Vector2.left, attackViewRange, playerLayer).collider; 
+                if(!player.GetComponent<PlayerCombat>().IsDead)
+                    Attack();
             }
             
         }
@@ -68,8 +88,21 @@ public class Enemy : MonoBehaviour
     private void Attack()
     {
         _animator.SetTrigger("Attack");
+        // GiveDamage is invoked so that the player takes damage during the animation
+        Invoke("GiveDamage", 0.4f);
+        _timeBtwAttack = startTimeBtwAttack;
     }
 
+    public void GiveDamage()
+    {
+        Collider2D[] playerToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, playerLayer);
+
+        foreach (var player in playerToDamage)
+        {
+            player.GetComponent<PlayerCombat>().TakeDamage(damage);
+        }
+    }
+    
     public void TakeDamage(float damageAmount)
     {
         _animator.SetTrigger("Hurt");
@@ -97,10 +130,11 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(eyes.position, Vector2.left * chaseRange);
+        Gizmos.DrawRay(eyes.position, Vector2.left * chaseViewRange);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(eyes.position - Vector3.up * 0.25f, Vector2.left * stanceRange);
+        Gizmos.DrawRay(eyes.position - Vector3.up * 0.25f, Vector2.left * stanceViewRange);
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(eyes.position - Vector3.up * 0.5f, Vector2.left * attackRange);
+        Gizmos.DrawRay(eyes.position - Vector3.up * 0.5f, Vector2.left * attackViewRange);
+        Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
 }

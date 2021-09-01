@@ -1,7 +1,14 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [Header("Health")]
+    [SerializeField] private float maxHealth;
+    private float _currentHealth;
+    private bool _isDead;
+    
     [Header("Attack Info")]
     [SerializeField] private float startTimeBtwAttack;
     [SerializeField] private Transform attackPos;
@@ -14,6 +21,10 @@ public class PlayerCombat : MonoBehaviour
     private bool _canAttack;
     
     public bool CanAttack => _canAttack;
+    public bool IsDead => _isDead;
+
+    public event Action GetDamaged;
+    public event Action OnDeath;
 
     private void Awake()
     {
@@ -33,10 +44,14 @@ public class PlayerCombat : MonoBehaviour
     private void Start()
     {
         _timeBtwAttack = startTimeBtwAttack;
+        _currentHealth = maxHealth;
+        StartCoroutine(DeathRoutine());
     }
     
     private void Update()
     {
+        if (_currentHealth <= 0) { _isDead = true; }
+        
         if (_timeBtwAttack <= 0)
         {
             _canAttack = true;
@@ -56,6 +71,27 @@ public class PlayerCombat : MonoBehaviour
             enemy.GetComponent<Enemy>().TakeDamage(damage);
         }
         _timeBtwAttack = startTimeBtwAttack;
+    }
+
+    public void TakeDamage(float damageAmount)
+    {
+        if (_isDead) return;
+        GetDamaged?.Invoke();
+        ReduceHealth(damageAmount);
+    }
+
+    private void ReduceHealth(float damageAmount)
+    {
+        _currentHealth -= damageAmount;
+    }
+
+    private IEnumerator DeathRoutine()
+    {
+        while (!_isDead)
+        {
+            yield return null;
+        }
+        OnDeath?.Invoke();
     }
     
     private void OnDrawGizmos()

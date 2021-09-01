@@ -23,6 +23,8 @@ public class PlayerInput : MonoBehaviour
     
     private void Update()
     {
+        if (_combat.IsDead) return;
+        
         _direction = Input.GetAxisRaw("Horizontal");
 
         if (_direction < 0)
