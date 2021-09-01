@@ -50,6 +50,8 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        if (_isDead) return;
+        
         if (_currentHealth <= 0) { _isDead = true; }
 
         if (_timeBtwAttack <= 0)
