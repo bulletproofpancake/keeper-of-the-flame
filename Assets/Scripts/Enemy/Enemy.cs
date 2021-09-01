@@ -8,16 +8,19 @@ public class Enemy : MonoBehaviour
     
     private float _currentHealth;
     private Animator _animator;
+    private BoxCollider2D _collider;
     private bool _isDead;
     
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _collider = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
     {
         _currentHealth = maxHealth;
+        _collider.enabled = true;
         StartCoroutine(DeathRoutine());
     }
 
@@ -38,6 +41,7 @@ public class Enemy : MonoBehaviour
         {
             yield return null;
         }
+        _collider.enabled = false;
         _animator.SetTrigger("Hurt");
         yield return new WaitForSeconds(0.25f);
         Die();
