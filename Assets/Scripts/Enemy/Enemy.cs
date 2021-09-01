@@ -6,6 +6,9 @@ public class Enemy : MonoBehaviour
     [Header("Health")]
     [SerializeField] private float maxHealth;
     
+    [Header("Movement")]
+    [SerializeField] private float movementSpeed;
+    
     [Header("Attack Detection")]
     [SerializeField] private Transform eyes;
     [SerializeField] private LayerMask playerLayer;
@@ -23,6 +26,7 @@ public class Enemy : MonoBehaviour
     private float _currentHealth;
     private Animator _animator;
     private BoxCollider2D _collider;
+    private Rigidbody2D _rigidbody2D;
     private bool _isDead;
     private bool _isPlayerWithinChase;
     private bool _isPlayerWithinStance;
@@ -33,6 +37,7 @@ public class Enemy : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _collider = GetComponent<BoxCollider2D>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -64,15 +69,20 @@ public class Enemy : MonoBehaviour
         if (_isPlayerWithinChase)
         {
             // Move towards player
+
+            _rigidbody2D.velocity = new Vector2(Vector2.left.x * movementSpeed, _rigidbody2D.velocity.y);
+            
             _animator.SetInteger("AnimState",2);
 
             if (_isPlayerWithinStance)
             {
+                _rigidbody2D.velocity = Vector2.zero;
                 _animator.SetInteger("AnimState", 1);
             }
 
             if (_isPlayerWithinAttack && _canAttack)
             {
+                _rigidbody2D.velocity = Vector2.zero;
                 var player = Physics2D.Raycast(eyes.position, Vector2.left, attackViewRange, playerLayer).collider; 
                 if(!player.GetComponent<PlayerCombat>().IsDead)
                     Attack();
@@ -81,6 +91,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            _rigidbody2D.velocity = Vector2.zero;
             _animator.SetInteger("AnimState",0);
         }        
     }
