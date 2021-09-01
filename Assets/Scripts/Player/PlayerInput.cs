@@ -38,7 +38,8 @@ public class PlayerInput : MonoBehaviour
             _isFlipped = false;
         }
         
-        if(Input.GetKeyDown(KeyCode.Z) && _movement.IsGrounded){Jump?.Invoke();}
-        if(Input.GetKeyDown(KeyCode.X) && _combat.CanAttack){Attack?.Invoke();}
+        if(Input.GetKeyDown(KeyCode.Z) && _combat.CanAttack){Attack?.Invoke();}
+        if(Input.GetKeyDown(KeyCode.X) && _movement.IsGrounded){Jump?.Invoke();}
+
     }
 }
