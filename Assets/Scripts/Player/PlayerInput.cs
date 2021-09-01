@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour
     private bool _isFlipped;
 
     private PlayerMovement _movement;
+    private PlayerCombat _combat;
     
     public float Direction => _direction;
     public bool IsFlipped => _isFlipped;
@@ -16,6 +17,7 @@ public class PlayerInput : MonoBehaviour
     private void Awake()
     {
         _movement = GetComponent<PlayerMovement>();
+        _combat = GetComponent<PlayerCombat>();
     }
 
     // Update is called once per frame
@@ -37,6 +39,6 @@ public class PlayerInput : MonoBehaviour
         }
         
         if(Input.GetKeyDown(KeyCode.Z) && _movement.IsGrounded){Jump?.Invoke();}
-        if(Input.GetKeyDown(KeyCode.X)){Attack?.Invoke();}
+        if(Input.GetKeyDown(KeyCode.X) && _combat.CanAttack){Attack?.Invoke();}
     }
 }
