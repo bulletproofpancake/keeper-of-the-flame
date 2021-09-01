@@ -19,7 +19,8 @@ public class PlayerCombat : MonoBehaviour
     private PlayerInput _input;
     private float _timeBtwAttack;
     private bool _canAttack;
-    
+
+    public float Health => _currentHealth <= 0 ? 0 : _currentHealth;
     public bool CanAttack => _canAttack;
     public bool IsDead => _isDead;
 
