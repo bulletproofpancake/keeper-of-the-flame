@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    private float _direction;
-    private bool _isFlipped;
-
     private PlayerMovement _movement;
     private PlayerCombat _combat;
-    
+
+    private float _direction;
+    private bool _isFlipped;
+   
     public float Direction => _direction;
     public bool IsFlipped => _isFlipped;
+    
     public event Action Jump;
     public event Action Attack;
 
@@ -19,9 +20,8 @@ public class PlayerInput : MonoBehaviour
         _movement = GetComponent<PlayerMovement>();
         _combat = GetComponent<PlayerCombat>();
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    private void Update()
     {
         _direction = Input.GetAxisRaw("Horizontal");
 
@@ -29,10 +29,7 @@ public class PlayerInput : MonoBehaviour
         {
             _isFlipped = true;
         }
-        // uses else if instead of else
-        // so that when direction == 0
-        // which is when the player doesn't press a key
-        // we retain the orientation
+        // used else if to retain player orientation
         else if (_direction > 0)
         {
             _isFlipped = false;
