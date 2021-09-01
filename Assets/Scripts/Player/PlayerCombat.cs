@@ -50,10 +50,11 @@ public class PlayerCombat : MonoBehaviour
 
     private void Attack()
     {
-        print("Attacking");
-        
-        // TODO: INSERT ENEMY DAMAGE METHOD
-        
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, enemyLayer);
+        foreach (var enemy in enemiesToDamage)
+        {
+            enemy.GetComponent<Enemy>().TakeDamage(damage);
+        }
         _timeBtwAttack = startTimeBtwAttack;
     }
     
