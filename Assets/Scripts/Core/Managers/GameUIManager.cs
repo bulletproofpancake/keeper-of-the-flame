@@ -5,7 +5,6 @@ public class GameUIManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerCanvas;
     [SerializeField] private TextMeshProUGUI playerLivesCount;
-    
     private PlayerCombat _playerCombat;
 
 
@@ -13,12 +12,7 @@ public class GameUIManager : MonoBehaviour
     {
         GameManager.Instance.OnGameStart += () => playerCanvas.SetActive(true);
     }
-
-    private void Awake()
-    {
-        _playerCombat = FindObjectOfType<PlayerCombat>();
-    }
-
+    
     private void Start()
     {
         playerCanvas.SetActive(false);
@@ -27,6 +21,7 @@ public class GameUIManager : MonoBehaviour
     private void Update()
     {
         if (!GameManager.Instance.IsGameStart) return;
+        _playerCombat = FindObjectOfType<PlayerCombat>();
         playerLivesCount.text = $"x {_playerCombat.Health}";
     }
 }

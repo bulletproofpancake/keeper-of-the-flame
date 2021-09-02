@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Gem
+  - Exit
   layers:
   - Default
   - TransparentFX

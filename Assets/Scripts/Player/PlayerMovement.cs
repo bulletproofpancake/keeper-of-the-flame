@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     
     private PlayerInput _input;
+    private PlayerCombat _combat;
     private Rigidbody2D _rb2D;
     private bool _isGrounded;
     private bool _hasGem;
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _input = GetComponent<PlayerInput>();
+        _combat = GetComponent<PlayerCombat>();
         _rb2D = GetComponent<Rigidbody2D>();
     }
 
@@ -33,7 +35,6 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         transform.rotation = _input.IsFlipped ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
-        //if(_hasGem) print("Has Gem");
     }
 
     private void FixedUpdate()
@@ -59,6 +60,12 @@ public class PlayerMovement : MonoBehaviour
             Destroy(other.gameObject);
             _hasGem = true;
         }
+
+        if (other.collider.CompareTag("Exit"))
+        {
+            GameManager.Instance.GameEnd(_combat.IsDead);
+        }
+        
     }
     
     private void OnCollisionExit2D(Collision2D other)

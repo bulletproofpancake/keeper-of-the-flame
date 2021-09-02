@@ -51,7 +51,10 @@ public class PlayerCombat : MonoBehaviour
     
     private void Update()
     {
-        if (_currentHealth <= 0) { _isDead = true; }
+        if (_currentHealth <= 0)
+        {
+            _isDead = true;
+        }
         
         if (_timeBtwAttack <= 0)
         {
@@ -93,6 +96,7 @@ public class PlayerCombat : MonoBehaviour
             yield return null;
         }
         OnDeath?.Invoke();
+        GameManager.Instance.GameEnd(_isDead);
     }
     
     private void OnDrawGizmos()

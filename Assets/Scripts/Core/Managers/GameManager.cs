@@ -16,19 +16,19 @@ public class GameManager : Singleton<GameManager>
     
     public event Action OnGameStart;
     public event Action OnGameEnd;
-    
-    private void Update()
-    {
-        if (!_isGameStart) return;
-        
-        OnGameStart?.Invoke();
-        print("Game Start");
-        _isGameStart = false;
-    }
 
     public void StartGame()
     {
+        OnGameStart?.Invoke();
         _isGameStart = true;
     }
-    
+
+    public void GameEnd(bool isPlayerWin)
+    {
+        OnGameEnd?.Invoke();
+        _isGameEnd = false;
+        playerWon = isPlayerWin;
+    }
+
+
 }
