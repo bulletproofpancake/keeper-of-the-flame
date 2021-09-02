@@ -21,8 +21,12 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnCharacters()
     {
+        SpawnPlayer();
+    }
+
+    private void SpawnPlayer()
+    {
         _player = Instantiate(playerPrefab, playerSpawn.position, Quaternion.identity);
         vCam.m_Follow = _player.transform;
     }
-
 }
