@@ -12,6 +12,7 @@ public class GameUIManager : MonoBehaviour
     [Header("End Game Display")]
     [SerializeField] private GameObject GameEndCanvas;
     [SerializeField] private TextMeshProUGUI GameEndText;
+    [SerializeField] private TextMeshProUGUI TimerDisplay;
     
     private PlayerCombat _playerCombat;
 
@@ -42,8 +43,7 @@ public class GameUIManager : MonoBehaviour
         if (!GameManager.Instance.IsGameStart) return;
         _playerCombat = FindObjectOfType<PlayerCombat>();
         playerLivesCount.text = $"x {_playerCombat.Health}";
-        var timespan = TimeSpan.FromSeconds(GameManager.Instance.Timer);
-        timerCountDisplay.text = $"{(int) timespan.TotalMinutes}:{timespan.Seconds:00}";
+        timerCountDisplay.text = $"{(int) GameManager.Instance.Span.TotalMinutes}:{GameManager.Instance.Span.Seconds:00}";
     }
 
     private void GameOver()
@@ -58,6 +58,7 @@ public class GameUIManager : MonoBehaviour
             GameEndText.text = "Game Over";
             GameEndText.color = Color.red;
         }
+        TimerDisplay.text = $"You ran for {timerCountDisplay.text}";
     }
     
 }

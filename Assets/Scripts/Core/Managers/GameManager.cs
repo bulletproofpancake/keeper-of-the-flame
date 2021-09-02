@@ -9,13 +9,14 @@ public class GameManager : Singleton<GameManager>
     private bool _isGameStart;
     private bool _isGameEnd;
     private float _timer;
+    private TimeSpan _span;
     
     public bool playerWon;
 
     public bool IsGameStart => _isGameStart;
     public bool IsGameEnd => _isGameEnd;
     public float Timer => _timer;
-    
+    public TimeSpan Span => _span;
     public event Action OnGameStart;
     public event Action OnGameEnd;
 
@@ -32,6 +33,7 @@ public class GameManager : Singleton<GameManager>
         if (_isGameStart)
         {
             _timer += Time.deltaTime;
+            _span = TimeSpan.FromSeconds(_timer);
         }
     }
 

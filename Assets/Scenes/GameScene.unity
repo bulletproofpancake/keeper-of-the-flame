@@ -760,6 +760,7 @@ MonoBehaviour:
   timerCountDisplay: {fileID: 113319102}
   GameEndCanvas: {fileID: 297926925}
   GameEndText: {fileID: 635822074}
+  TimerDisplay: {fileID: 300684407}
 --- !u!4 &189545388
 Transform:
   m_ObjectHideFlags: 0
@@ -1051,7 +1052,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &297926926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3890,7 +3891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1614309413
 RectTransform:
   m_ObjectHideFlags: 0
