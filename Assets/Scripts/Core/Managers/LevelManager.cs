@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private Transform playerSpawn;
+
+    private void OnEnable()
     {
-        
+        GameManager.Instance.OnGameStart += SpawnCharacters;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        GameManager.Instance.OnGameStart -= SpawnCharacters;
     }
+
+    private void SpawnCharacters()
+    {
+        Instantiate(playerPrefab, playerSpawn.position, Quaternion.identity);
+    }
+
 }
