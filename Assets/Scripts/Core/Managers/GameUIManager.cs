@@ -14,6 +14,7 @@ public class GameUIManager : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance.IsGameStart) return;
         playerLivesCount.text = $"x {_playerCombat.Health}";
     }
 }
