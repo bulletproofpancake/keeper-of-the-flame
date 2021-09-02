@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebdfede591cf78746bcd005be229aaea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 3
   movementSpeed: 1
   eyes: {fileID: 8642753864104937905}
   playerLayer:

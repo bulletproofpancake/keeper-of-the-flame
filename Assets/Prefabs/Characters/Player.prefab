@@ -239,7 +239,7 @@ MonoBehaviour:
   maxHealth: 5
   startTimeBtwAttack: 0.3
   attackPos: {fileID: 7658038331897039353}
-  attackRange: 0.5
+  attackRange: 0.6
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
