@@ -36,6 +36,7 @@ public class GameUIManager : MonoBehaviour
     {
         playerCanvas.SetActive(false);
         GameEndCanvas.SetActive(false);
+        AudioManager.Instance.Play("bgm");
     }
 
     private void Update()

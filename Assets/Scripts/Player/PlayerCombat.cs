@@ -86,6 +86,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void ReduceHealth(float damageAmount)
     {
+        AudioManager.Instance.Play("Hurt");
         _currentHealth -= damageAmount;
     }
 
