@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [Header("Attack Detection")]
     [SerializeField] private Transform eyes;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private float viewRange;
     [SerializeField] private float chaseViewRange;
     [SerializeField] private float stanceViewRange;
     [SerializeField] private float attackViewRange;
@@ -31,7 +32,9 @@ public class Enemy : MonoBehaviour
     private Animator _animator;
     private BoxCollider2D _collider;
     private Rigidbody2D _rigidbody2D;
+    private bool _isFlipped;
     private bool _isDead;
+    private bool _isPlayerWithinView;
     private bool _isPlayerWithinChase;
     private bool _isPlayerWithinStance;
     private bool _isPlayerWithinAttack;
@@ -67,38 +70,49 @@ public class Enemy : MonoBehaviour
             _canAttack = false;
             _timeBtwAttack -= Time.deltaTime;
         }
+
+        _isPlayerWithinView = Physics2D.OverlapCircle(transform.position, viewRange, playerLayer);
+        _isPlayerWithinChase = Physics2D.Raycast(eyes.position, -transform.right, chaseViewRange, playerLayer);
+        _isPlayerWithinStance = Physics2D.Raycast(eyes.position, -transform.right, stanceViewRange, playerLayer);
+        _isPlayerWithinAttack = Physics2D.Raycast(eyes.position, -transform.right, attackViewRange, playerLayer);
+
+        transform.rotation = _isFlipped ? Quaternion.Euler(0, 180f, 0) : Quaternion.identity;
         
-        _isPlayerWithinChase = Physics2D.Raycast(eyes.position, Vector2.left, chaseViewRange, playerLayer);
-        _isPlayerWithinStance = Physics2D.Raycast(eyes.position, Vector2.left, stanceViewRange, playerLayer);
-        _isPlayerWithinAttack = Physics2D.Raycast(eyes.position, Vector2.left, attackViewRange, playerLayer);
-        
-        if (_isPlayerWithinChase)
+        if(_isPlayerWithinView)
         {
-            // Move towards player
 
-            _rigidbody2D.velocity = new Vector2(Vector2.left.x * movementSpeed, _rigidbody2D.velocity.y);
+            var collision = Physics2D.OverlapCircle(transform.position, viewRange, playerLayer);
+
+            _isFlipped = !(collision.transform.position.x < transform.position.x);
             
-            _animator.SetInteger("AnimState",2);
+            if (_isPlayerWithinChase)
+            {
+                // Move towards player
 
-            if (_isPlayerWithinStance)
+                _rigidbody2D.velocity = new Vector2(-transform.right.x * movementSpeed, _rigidbody2D.velocity.y);
+
+                _animator.SetInteger("AnimState", 2);
+
+                if (_isPlayerWithinStance)
+                {
+                    _rigidbody2D.velocity = Vector2.zero;
+                    _animator.SetInteger("AnimState", 1);
+                }
+
+                if (_isPlayerWithinAttack && _canAttack)
+                {
+                    _rigidbody2D.velocity = Vector2.zero;
+                    var player = Physics2D.Raycast(eyes.position, Vector2.left, attackViewRange, playerLayer).collider;
+                    if (!player.GetComponent<PlayerCombat>().IsDead)
+                        Attack();
+                }
+
+            }
+            else
             {
                 _rigidbody2D.velocity = Vector2.zero;
-                _animator.SetInteger("AnimState", 1);
+                _animator.SetInteger("AnimState", 0);
             }
-
-            if (_isPlayerWithinAttack && _canAttack)
-            {
-                _rigidbody2D.velocity = Vector2.zero;
-                var player = Physics2D.Raycast(eyes.position, Vector2.left, attackViewRange, playerLayer).collider; 
-                if(!player.GetComponent<PlayerCombat>().IsDead)
-                    Attack();
-            }
-            
-        }
-        else
-        {
-            _rigidbody2D.velocity = Vector2.zero;
-            _animator.SetInteger("AnimState",0);
         }        
     }
 
@@ -148,6 +162,7 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, viewRange);
         Gizmos.DrawRay(eyes.position, Vector2.left * chaseViewRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(eyes.position - Vector3.up * 0.25f, Vector2.left * stanceViewRange);

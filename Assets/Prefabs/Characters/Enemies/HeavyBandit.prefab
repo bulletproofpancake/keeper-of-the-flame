@@ -202,6 +202,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  viewRange: 5
   chaseViewRange: 5
   stanceViewRange: 0.5
   attackViewRange: 0.5
