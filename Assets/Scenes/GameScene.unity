@@ -3003,6 +3003,18 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Gem
+    clip: {fileID: 8300000, guid: 752112607b019af42bdefe97ebfbfc3e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Exit
+    clip: {fileID: 8300000, guid: 20392e762ee2a574c822712293e589ae, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &1004590686
 Transform:
   m_ObjectHideFlags: 0
