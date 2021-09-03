@@ -39,10 +39,10 @@ public class GameManager : Singleton<GameManager>
 
     public void GameEnd(bool isPlayerWin)
     {
-        OnGameEnd?.Invoke();
         _isGameStart = false;
         _isGameEnd = true;
         playerWon = isPlayerWin;
+        OnGameEnd?.Invoke();
     }
 
 }

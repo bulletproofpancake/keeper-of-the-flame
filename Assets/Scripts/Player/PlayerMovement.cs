@@ -59,11 +59,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
             _hasGem = true;
+            GameManager.Instance.GameEnd(isPlayerWin:true);
         }
 
         if (other.collider.CompareTag("Exit"))
         {
-            GameManager.Instance.GameEnd(_combat.IsDead);
+            GameManager.Instance.GameEnd(isPlayerWin:true);
         }
         
     }

@@ -24,8 +24,8 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         if (_combat.IsDead) return;
-        
-        _direction = Input.GetAxisRaw("Horizontal");
+
+        _direction = GameManager.Instance.IsGameEnd ? 0 : Input.GetAxisRaw("Horizontal");
 
         if (_direction < 0)
         {
