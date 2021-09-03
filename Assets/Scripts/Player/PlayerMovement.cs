@@ -61,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (other.collider.CompareTag("Gem"))
         {
+            AudioManager.Instance.Play("Gem");
             Destroy(other.gameObject);
             _hasGem = true;
             OnGemObtain?.Invoke();
@@ -68,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (other.collider.CompareTag("Exit"))
         {
+            AudioManager.Instance.Play("Exit");
             GameManager.Instance.GameEnd(isPlayerWin:true);
         }
         
