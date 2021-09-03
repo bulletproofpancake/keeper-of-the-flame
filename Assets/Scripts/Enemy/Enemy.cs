@@ -22,6 +22,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private float startTimeBtwAttack;
     private float _timeBtwAttack;
+
+    [Header("Audio")] 
+    [SerializeField] private Sound hurtSFX;
+    [SerializeField] private Sound attackSFX;
     
     private float _currentHealth;
     private Animator _animator;
@@ -109,7 +113,7 @@ public class Enemy : MonoBehaviour
     public void GiveDamage()
     {
         Collider2D[] playerToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, playerLayer);
-
+        AudioManager.Instance.Play(attackSFX);
         foreach (var player in playerToDamage)
         {
             player.GetComponent<PlayerCombat>().TakeDamage(damage);
@@ -118,6 +122,7 @@ public class Enemy : MonoBehaviour
     
     public void TakeDamage(float damageAmount)
     {
+        AudioManager.Instance.Play(hurtSFX);
         _animator.SetTrigger("Hurt");
         _currentHealth -= damageAmount; 
     }

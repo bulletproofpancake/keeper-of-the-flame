@@ -46,11 +46,13 @@ public class PlayerAnimations : MonoBehaviour
 
     private void Attack()
     {
+        AudioManager.Instance.Play(_movement.IsGrounded ? "atkGround" : "atkAir");
         _animator.SetTrigger(_movement.IsGrounded ? "Attack3" : "Attack1");
     }
 
     private void GetDamaged()
     {
+        AudioManager.Instance.Play("Hurt");
         _animator.SetTrigger("Hurt");
     }
 

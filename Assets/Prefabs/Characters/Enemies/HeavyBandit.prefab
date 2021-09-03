@@ -209,6 +209,20 @@ MonoBehaviour:
   attackPos: {fileID: 8675306516347594734}
   attackRange: 0.5
   startTimeBtwAttack: 0.8
+  hurtSFX:
+    name: Hurt
+    clip: {fileID: 8300000, guid: 64d91754ad3be0843b5951ba8431e3ba, type: 3}
+    volume: 0.75
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  attackSFX:
+    name: Attack
+    clip: {fileID: 8300000, guid: 2859e21b2763d6140a6abef152dec0f1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &7326349962108429037
 GameObject:
   m_ObjectHideFlags: 0
