@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -14,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody2D RB2D => _rb2D;
     public bool IsGrounded => _isGrounded;
+
+    public event Action OnGemObtain;
 
     private void Awake()
     {
@@ -59,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
             _hasGem = true;
-            GameManager.Instance.GameEnd(isPlayerWin:true);
+            OnGemObtain?.Invoke();
         }
 
         if (other.collider.CompareTag("Exit"))

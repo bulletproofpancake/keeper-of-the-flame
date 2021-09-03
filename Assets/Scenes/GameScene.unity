@@ -867,8 +867,8 @@ SpriteRenderer:
   m_SortingLayerID: 723323889
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 38dfa8c3b7cb9c34e8728c80c179319a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 4d9dbecbdc2fe654e96f44ef2bf89a18, type: 3}
+  m_Color: {r: 0.3254902, g: 1, b: 0.2, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -890,7 +890,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &235063690
 GameObject:
@@ -934,7 +934,7 @@ Transform:
   m_Children:
   - {fileID: 1948467335}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &250189185
 GameObject:
@@ -1678,7 +1678,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 10, y: 13, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1830,6 +1830,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPersist: 0
   playerWon: 0
+  playerHasGem: 0
 --- !u!1 &597960637
 GameObject:
   m_ObjectHideFlags: 0
@@ -3103,6 +3104,7 @@ MonoBehaviour:
   - {fileID: 871445853}
   gemPrefab: {fileID: 3180188832059204371, guid: 0f00b5b149960a349a9f288405e61194, type: 3}
   gemSpawnPoint: {fileID: 260760131}
+  doorPrefab: {fileID: 6150550428159224663, guid: 25ccdec43164b624d82b2d1fd12ac615, type: 3}
 --- !u!1 &1259680675
 GameObject:
   m_ObjectHideFlags: 0
@@ -14655,7 +14657,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110242675}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 10, y: 13, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1587795807}

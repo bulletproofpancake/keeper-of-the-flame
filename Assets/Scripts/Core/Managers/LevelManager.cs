@@ -20,6 +20,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject gemPrefab;
     [SerializeField] private Transform gemSpawnPoint;
     private GameObject _gem;
+
+    [Header("Exit Spawn")]
+    [SerializeField] private GameObject doorPrefab;
+    private GameObject _door;
     
     private void OnEnable()
     {
@@ -38,6 +42,12 @@ public class LevelManager : MonoBehaviour
         SpawnPlayer();
         SpawnEnemies();
         SpawnGem();
+        
+        _player.GetComponent<PlayerMovement>().OnGemObtain += () =>
+        {
+            SpawnEnemies();
+            SpawnDoor();
+        };
     }
 
     private void UnloadLevel()
@@ -45,6 +55,7 @@ public class LevelManager : MonoBehaviour
         DespawnPlayer();
         DespawnEnemies();
         DespawnGem();
+        DespawnDoor();
     }
     
     private void SpawnPlayer()
@@ -66,6 +77,11 @@ public class LevelManager : MonoBehaviour
     {
         _gem = Instantiate(gemPrefab, gemSpawnPoint.position, Quaternion.identity);
     }
+
+    private void SpawnDoor()
+    {
+        _door = Instantiate(doorPrefab, playerSpawn.position, Quaternion.identity);
+    }
     
     private void DespawnPlayer()
     {
@@ -86,6 +102,11 @@ public class LevelManager : MonoBehaviour
     private void DespawnGem()
     {
         Destroy(_gem);
+    }
+
+    private void DespawnDoor()
+    {
+        Destroy(_door);
     }
     
 }
