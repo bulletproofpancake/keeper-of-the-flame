@@ -41,6 +41,7 @@ public class PlayerAnimations : MonoBehaviour
 
     private void Jump()
     {
+        AudioManager.Instance.Play("Jump");
         _animator.SetTrigger("Jump");
     }
 
