@@ -12,11 +12,13 @@ public class LevelManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.OnGameStart += SpawnCharacters;
+        GameManager.Instance.OnGameEnd += DespawnPlayer;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.OnGameStart -= SpawnCharacters;
+        GameManager.Instance.OnGameEnd -= DespawnPlayer;
     }
 
     private void SpawnCharacters()
@@ -28,5 +30,10 @@ public class LevelManager : MonoBehaviour
     {
         _player = Instantiate(playerPrefab, playerSpawn.position, Quaternion.identity);
         vCam.m_Follow = _player.transform;
+    }
+
+    private void DespawnPlayer()
+    {
+        Destroy(_player);
     }
 }

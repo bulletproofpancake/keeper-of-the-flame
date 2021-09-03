@@ -5,6 +5,7 @@ public class SystemUIManager : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenuUI;
     [SerializeField] private GameObject instructionsUI;
+    [SerializeField] private GameObject gameEndUI;
 
     private void OnEnable()
     {
@@ -43,6 +44,7 @@ public class SystemUIManager : MonoBehaviour
     {
         mainMenuUI.SetActive(true);
         instructionsUI.SetActive(false);
+        gameEndUI.SetActive(false);
     }
     
     public void ExitGame()
