@@ -31,17 +31,20 @@ public class SystemUIManager : MonoBehaviour
 
     public void StartGame()
     {
+        AudioManager.Instance.Play("Click");
         GameManager.Instance.StartGame();
     }
 
     public void ShowInstructions()
     {
+        AudioManager.Instance.Play("Click");
         mainMenuUI.SetActive(false);
         instructionsUI.SetActive(true);
     }
 
     public void ReturnToMainMenu()
     {
+        AudioManager.Instance.Play("Click");
         mainMenuUI.SetActive(true);
         instructionsUI.SetActive(false);
         gameEndUI.SetActive(false);
@@ -49,6 +52,7 @@ public class SystemUIManager : MonoBehaviour
     
     public void ExitGame()
     {
+        AudioManager.Instance.Play("Click");
         Application.Quit();
     }
 }

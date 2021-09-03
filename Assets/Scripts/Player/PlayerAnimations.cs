@@ -62,6 +62,7 @@ public class PlayerAnimations : MonoBehaviour
     }
     private IEnumerator DeathRoutine()
     {
+        AudioManager.Instance.Play("Death");
         _animator.SetTrigger("Hurt");
         yield return new WaitForSeconds(0.273f);
         _animator.SetTrigger("Death");
