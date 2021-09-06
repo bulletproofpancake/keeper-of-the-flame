@@ -52,6 +52,7 @@ public class Enemy : MonoBehaviour
         _currentHealth = maxHealth;
         _timeBtwAttack = startTimeBtwAttack;
         _collider.enabled = true;
+        _rigidbody2D.isKinematic = false;
         StartCoroutine(DeathRoutine());
     }
 
@@ -148,6 +149,8 @@ public class Enemy : MonoBehaviour
             yield return null;
         }
         _collider.enabled = false;
+        _rigidbody2D.isKinematic = true;
+        _rigidbody2D.velocity = Vector2.zero;
         _animator.SetTrigger("Hurt");
         yield return new WaitForSeconds(0.25f);
         Die();
