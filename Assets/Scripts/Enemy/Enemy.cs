@@ -103,7 +103,7 @@ public class Enemy : MonoBehaviour
                 if (_isPlayerWithinAttack && _canAttack)
                 {
                     _rigidbody2D.velocity = Vector2.zero;
-                    var player = Physics2D.Raycast(eyes.position, Vector2.left, attackViewRange, playerLayer).collider;
+                    var player = Physics2D.Raycast(eyes.position, -transform.right, attackViewRange, playerLayer).collider;
                     if (!player.GetComponent<PlayerCombat>().IsDead)
                         Attack();
                 }
@@ -166,11 +166,11 @@ public class Enemy : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, viewRange);
-        Gizmos.DrawRay(eyes.position, Vector2.left * chaseViewRange);
+        Gizmos.DrawRay(eyes.position, -transform.right * chaseViewRange);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(eyes.position - Vector3.up * 0.25f, Vector2.left * stanceViewRange);
+        Gizmos.DrawRay(eyes.position - Vector3.up * 0.25f, -transform.right * stanceViewRange);
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(eyes.position - Vector3.up * 0.5f, Vector2.left * attackViewRange);
+        Gizmos.DrawRay(eyes.position - Vector3.up * 0.5f, -transform.right * attackViewRange);
         Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
 }
