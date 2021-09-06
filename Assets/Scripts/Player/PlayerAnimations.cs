@@ -67,6 +67,8 @@ public class PlayerAnimations : MonoBehaviour
         _animator.SetTrigger("Hurt");
         yield return new WaitForSeconds(0.273f);
         _animator.SetTrigger("Death");
+        yield return new WaitForSeconds(1f);
+        GameManager.Instance.GameEnd(isPlayerWin:false);
     }
     
 }

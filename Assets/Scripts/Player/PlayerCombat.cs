@@ -96,7 +96,6 @@ public class PlayerCombat : MonoBehaviour
             yield return null;
         }
         OnDeath?.Invoke();
-        GameManager.Instance.GameEnd(isPlayerWin:false);
     }
     
     private void OnDrawGizmos()

@@ -28,13 +28,13 @@ public class LevelManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.OnGameStart += LoadLevel;
-        GameManager.Instance.OnGameEnd += UnloadLevel;
+        //GameManager.Instance.OnGameEnd += UnloadLevel;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.OnGameStart -= LoadLevel;
-        GameManager.Instance.OnGameEnd -= UnloadLevel;
+        //GameManager.Instance.OnGameEnd -= UnloadLevel;
     }
 
     private void LoadLevel()
