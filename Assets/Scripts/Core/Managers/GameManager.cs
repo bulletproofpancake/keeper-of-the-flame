@@ -12,7 +12,6 @@ public class GameManager : Singleton<GameManager>
     private TimeSpan _span;
     
     public bool playerWon;
-    public bool playerHasGem;
 
     public bool IsGameStart => _isGameStart;
     public bool IsGameEnd => _isGameEnd;

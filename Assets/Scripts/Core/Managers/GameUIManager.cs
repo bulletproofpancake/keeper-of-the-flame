@@ -4,6 +4,11 @@ using TMPro;
 
 public class GameUIManager : MonoBehaviour
 {
+    
+    [Header("In Game Instructions")]
+    [SerializeField] private GameObject instructionsCanvas;
+    [SerializeField] private bool firstRun = true;
+
     [Header("In Game Display")]
     [SerializeField] private GameObject playerCanvas;
     [SerializeField] private TextMeshProUGUI playerLivesCount;
@@ -21,12 +26,17 @@ public class GameUIManager : MonoBehaviour
         GameManager.Instance.OnGameStart += () =>
         {
             playerCanvas.SetActive(true);
+            
+            if(firstRun) 
+            { instructionsCanvas.SetActive(true); }
+            
             GameEndCanvas.SetActive(false);
         };
         
         GameManager.Instance.OnGameEnd += () =>
         {
             playerCanvas.SetActive(false);
+            instructionsCanvas.SetActive(false);
             GameEndCanvas.SetActive(true);
             GameOver();
         };
@@ -35,6 +45,7 @@ public class GameUIManager : MonoBehaviour
     private void Start()
     {
         playerCanvas.SetActive(false);
+        instructionsCanvas.SetActive(false);
         GameEndCanvas.SetActive(false);
         AudioManager.Instance.Play("bgm");
     }
@@ -49,6 +60,7 @@ public class GameUIManager : MonoBehaviour
 
     private void GameOver()
     {
+        firstRun = false;
         if (GameManager.Instance.playerWon)
         {
             GameEndText.text = "Congratulations";
