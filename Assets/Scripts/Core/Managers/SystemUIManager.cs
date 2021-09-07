@@ -82,7 +82,7 @@ public class SystemUIManager : MonoBehaviour
         Application.Quit();
     }
 
-    IEnumerator TransitionFade()
+    private IEnumerator TransitionFade()
     {
         transitions.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1f);

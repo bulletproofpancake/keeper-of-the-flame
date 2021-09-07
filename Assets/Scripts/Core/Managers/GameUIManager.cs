@@ -1,10 +1,12 @@
-using System;
+using System.Collections;
 using UnityEngine;
 using TMPro;
 
 public class GameUIManager : MonoBehaviour
 {
-    
+    [Header("Transitions")]
+    [SerializeField] private CanvasGroup endScreenCanvas;
+
     [Header("In Game Instructions")]
     [SerializeField] private GameObject instructionsCanvas;
     [SerializeField] private bool firstRun = true;
@@ -32,16 +34,20 @@ public class GameUIManager : MonoBehaviour
             
             GameEndCanvas.SetActive(false);
         };
-        
-        GameManager.Instance.OnGameEnd += () =>
-        {
-            playerCanvas.SetActive(false);
-            instructionsCanvas.SetActive(false);
-            GameEndCanvas.SetActive(true);
-            GameOver();
-        };
+
+        GameManager.Instance.OnGameEnd += GameOverRoutine;
     }
-    
+
+    private void GameOverRoutine()
+    {
+        GameEndCanvas.SetActive(true);
+        playerCanvas.SetActive(false);
+        instructionsCanvas.SetActive(false);
+        endScreenCanvas.alpha = 0;
+        GameOver();
+        StartCoroutine(FadeIn());
+    }
+
     private void Start()
     {
         playerCanvas.SetActive(false);
@@ -73,5 +79,14 @@ public class GameUIManager : MonoBehaviour
         }
         TimerDisplay.text = $"You ran for {timerCountDisplay.text}";
     }
-    
+
+    IEnumerator FadeIn()
+    {
+        while (endScreenCanvas.alpha != 1)
+        {
+            endScreenCanvas.alpha += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
 }
