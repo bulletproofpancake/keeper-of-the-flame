@@ -80,7 +80,7 @@ public class GameUIManager : MonoBehaviour
         TimerDisplay.text = $"You ran for {timerCountDisplay.text}";
     }
 
-    IEnumerator FadeIn()
+    private IEnumerator FadeIn()
     {
         while (endScreenCanvas.alpha != 1)
         {

@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
     private void LoadLevel()
     {
         // Despawns everything in the game to make sure that there are no duplicates
-        Despawner();
+        UnloadLevel();
         
         SpawnPlayer();
         SpawnEnemies();
@@ -53,14 +53,7 @@ public class LevelManager : MonoBehaviour
         };
     }
 
-    private void UnloadLevel()
-    {
-        // Delayed so that death animations would play
-        // If player dies
-        Invoke("Despawner",3f);
-    }
-
-    private void Despawner()
+    public void UnloadLevel()
     {
         DespawnPlayer();
         DespawnEnemies();

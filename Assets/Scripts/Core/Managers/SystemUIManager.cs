@@ -71,6 +71,7 @@ public class SystemUIManager : MonoBehaviour
         AudioManager.Instance.Play("Click");
         StartCoroutine(TransitionFade());
         yield return new WaitForSeconds(1f);
+        FindObjectOfType<LevelManager>().UnloadLevel();
         mainMenuUI.SetActive(true);
         instructionsUI.SetActive(false);
         gameEndUI.SetActive(false);
