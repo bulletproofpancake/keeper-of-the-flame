@@ -4,6 +4,10 @@ using Cinemachine;
 
 public class LevelManager : MonoBehaviour
 {
+
+    [Header("Level Spawner")]
+    [SerializeField] private GameObject[] levels;
+
     [Header("Player Spawn")]
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform playerSpawn;
@@ -34,6 +38,7 @@ public class LevelManager : MonoBehaviour
     private void OnDisable()
     {
         GameManager.Instance.OnGameStart -= LoadLevel;
+        _player.GetComponent<PlayerMovement>().OnGemObtain -= ChangeLevel;
         //GameManager.Instance.OnGameEnd -= UnloadLevel;
     }
 
@@ -41,6 +46,9 @@ public class LevelManager : MonoBehaviour
     {
         // Despawns everything in the game to make sure that there are no duplicates
         UnloadLevel();
+        
+        levels[0].SetActive(true);
+        levels[1].SetActive(false);
         
         SpawnPlayer();
         SpawnEnemies();
@@ -61,9 +69,17 @@ public class LevelManager : MonoBehaviour
         DespawnDoor();
     }
 
+    private void ChangeLevel()
+    {
+        print("Changing Level");
+        levels[0].SetActive(false);
+        levels[1].SetActive(true);
+    }
+    
     private void SpawnPlayer()
     {
         _player = Instantiate(playerPrefab, playerSpawn.position, Quaternion.identity);
+        _player.GetComponent<PlayerMovement>().OnGemObtain += ChangeLevel;
         vCam.m_Follow = _player.transform;
     }
 
