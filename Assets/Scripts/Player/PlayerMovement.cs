@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody2D RB2D => _rb2D;
     public bool IsGrounded => _isGrounded;
+    public bool HasGem => _hasGem;
 
     public event Action OnGemObtain;
 

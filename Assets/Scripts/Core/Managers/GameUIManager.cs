@@ -62,6 +62,8 @@ public class GameUIManager : MonoBehaviour
         _playerCombat = FindObjectOfType<PlayerCombat>();
         playerLivesCount.text = $"x {_playerCombat.Health}";
         timerCountDisplay.text = $"{(int) GameManager.Instance.Span.TotalMinutes}:{GameManager.Instance.Span.Seconds:00}";
+        if (FindObjectOfType<PlayerMovement>().HasGem)
+            instructionsCanvas.SetActive(false);
     }
 
     private void GameOver()
