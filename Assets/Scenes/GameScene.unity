@@ -18819,6 +18819,7 @@ MonoBehaviour:
   enemySpawnPoints:
   - {fileID: 1242417617}
   - {fileID: 1539729973}
+  _enemies: []
   gemPrefab: {fileID: 3180188832059204371, guid: 0f00b5b149960a349a9f288405e61194, type: 3}
   gemSpawnPoint: {fileID: 260760131}
   doorPrefab: {fileID: 6150550428159224663, guid: 25ccdec43164b624d82b2d1fd12ac615, type: 3}

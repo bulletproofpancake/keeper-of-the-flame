@@ -17,7 +17,7 @@ public class LevelManager : MonoBehaviour
     [Header("Enemy Spawn")]
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private EnemySpawnPoints[] enemySpawnPoints;
-    public List<GameObject> enemies = new List<GameObject>();
+    [SerializeField] private List<GameObject> _enemies = new List<GameObject>();
 
     [Header("Gem Spawn")]
     [SerializeField] private GameObject gemPrefab;
@@ -39,6 +39,17 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.OnGameStart -= LoadLevel;
         _player.GetComponent<PlayerMovement>().OnGemObtain -= ChangeLevel;
         //GameManager.Instance.OnGameEnd -= UnloadLevel;
+    }
+
+    private void Update()
+    {
+        foreach (var enemy in _enemies)
+        {
+            if (enemy == null)
+            {
+                _enemies.Remove(enemy);
+            }
+        }
     }
 
     private void LoadLevel()
@@ -92,13 +103,14 @@ public class LevelManager : MonoBehaviour
 
         foreach (var point in enemySpawnPoints[level].points)
         {
-            Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], point.position, Quaternion.identity);
+            var enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], point.position, Quaternion.identity);
+            _enemies.Add(enemy);
         }
         
         // Relocates existing enemies to new spawn points
         for (int i = 0; i < enemySpawnPoints[level].points.Length; i++)
         {
-            enemies[i].transform.position = enemySpawnPoints[level].points[i].position;
+            _enemies[i].transform.position = enemySpawnPoints[level].points[i].position;
         }
         
     }
@@ -120,7 +132,7 @@ public class LevelManager : MonoBehaviour
 
     private void DespawnEnemies()
     {
-        foreach (var enemy in enemies)
+        foreach (var enemy in _enemies)
         {
             if (enemy != null)
             {
