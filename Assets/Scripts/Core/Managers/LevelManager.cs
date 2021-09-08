@@ -4,7 +4,6 @@ using Cinemachine;
 
 public class LevelManager : MonoBehaviour
 {
-
     [Header("Level Spawner")]
     [SerializeField] private GameObject[] levels;
 
@@ -17,8 +16,8 @@ public class LevelManager : MonoBehaviour
 
     [Header("Enemy Spawn")]
     [SerializeField] private GameObject[] enemyPrefabs;
-    [SerializeField] private Transform[] enemySpawnPoints;
-    private List<GameObject> _enemies = new List<GameObject>();
+    [SerializeField] private EnemySpawnPoints[] enemySpawnPoints;
+    public List<GameObject> enemies = new List<GameObject>();
 
     [Header("Gem Spawn")]
     [SerializeField] private GameObject gemPrefab;
@@ -51,12 +50,12 @@ public class LevelManager : MonoBehaviour
         levels[1].SetActive(false);
         
         SpawnPlayer();
-        SpawnEnemies();
+        SpawnEnemies(0);
         SpawnGem();
         
         _player.GetComponent<PlayerMovement>().OnGemObtain += () =>
         {
-            SpawnEnemies();
+            SpawnEnemies(1);
             SpawnDoor();
         };
     }
@@ -83,13 +82,25 @@ public class LevelManager : MonoBehaviour
         vCam.m_Follow = _player.transform;
     }
 
-    private void SpawnEnemies()
+    private void SpawnEnemies(int level)
     {
-        foreach (var spawnPoint in enemySpawnPoints)
+        // foreach (var spawnPoint in enemySpawnPoints)
+        // {
+        //     var enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPoint.position, Quaternion.identity);
+        //     _enemies.Add(enemy);
+        // }
+
+        foreach (var point in enemySpawnPoints[level].points)
         {
-            var enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPoint.position, Quaternion.identity);
-            _enemies.Add(enemy);
+            Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], point.position, Quaternion.identity);
         }
+        
+        // Relocates existing enemies to new spawn points
+        for (int i = 0; i < enemySpawnPoints[level].points.Length; i++)
+        {
+            enemies[i].transform.position = enemySpawnPoints[level].points[i].position;
+        }
+        
     }
 
     private void SpawnGem()
@@ -109,7 +120,7 @@ public class LevelManager : MonoBehaviour
 
     private void DespawnEnemies()
     {
-        foreach (var enemy in _enemies)
+        foreach (var enemy in enemies)
         {
             if (enemy != null)
             {

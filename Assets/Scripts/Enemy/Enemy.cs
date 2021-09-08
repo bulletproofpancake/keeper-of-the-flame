@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     private Animator _animator;
     private BoxCollider2D _collider;
     private Rigidbody2D _rigidbody2D;
+    private LevelManager _levelManager;
     private bool _isFlipped;
     private bool _isDead;
     private bool _isPlayerWithinView;
@@ -45,8 +46,8 @@ public class Enemy : MonoBehaviour
         _animator = GetComponent<Animator>();
         _collider = GetComponent<BoxCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _levelManager = GetComponent<LevelManager>();
     }
-
     private void Start()
     {
         _currentHealth = maxHealth;
@@ -54,6 +55,11 @@ public class Enemy : MonoBehaviour
         _collider.enabled = true;
         _rigidbody2D.isKinematic = false;
         StartCoroutine(DeathRoutine());
+    }
+
+    private void OnDestroy()
+    {
+        //_levelManager.enemies.Remove(this.gameObject);
     }
 
     private void Update()
