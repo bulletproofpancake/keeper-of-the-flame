@@ -95,24 +95,15 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnEnemies(int level)
     {
-        // foreach (var spawnPoint in enemySpawnPoints)
-        // {
-        //     var enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPoint.position, Quaternion.identity);
-        //     _enemies.Add(enemy);
-        // }
 
-        foreach (var point in enemySpawnPoints[level].points)
+        var points = enemySpawnPoints[level].points;
+
+        for (int i = 0; i < points.Length; i++)
         {
-            var enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], point.position, Quaternion.identity);
-            _enemies.Add(enemy);
+            _enemies.Add(Instantiate(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)]));
+            _enemies[i].transform.position = points[i].position;
         }
-        
-        // Relocates existing enemies to new spawn points
-        for (int i = 0; i < enemySpawnPoints[level].points.Length; i++)
-        {
-            _enemies[i].transform.position = enemySpawnPoints[level].points[i].position;
-        }
-        
+
     }
 
     private void SpawnGem()
