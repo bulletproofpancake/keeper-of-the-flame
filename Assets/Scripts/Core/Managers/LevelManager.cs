@@ -41,17 +41,6 @@ public class LevelManager : MonoBehaviour
         //GameManager.Instance.OnGameEnd -= UnloadLevel;
     }
 
-    private void Update()
-    {
-        foreach (var enemy in _enemies)
-        {
-            if (enemy == null)
-            {
-                _enemies.Remove(enemy);
-            }
-        }
-    }
-
     private void LoadLevel()
     {
         // Despawns everything in the game to make sure that there are no duplicates
@@ -95,15 +84,25 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnEnemies(int level)
     {
+        if(level == 0)
+            DespawnEnemies();
 
         var points = enemySpawnPoints[level].points;
 
         for (int i = 0; i < points.Length; i++)
         {
-            _enemies.Add(Instantiate(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)]));
-            _enemies[i].transform.position = points[i].position;
+            _enemies.Add(Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], points[i].position, Quaternion.identity));
         }
-
+        
+        print(_enemies.Count + " | " + points.Length );
+        
+        if (_enemies.Count > points.Length)
+        {
+            for (int i = 0; i < points.Length; i++)
+            {
+                _enemies[i].transform.position = points[i].transform.position;
+            }
+        }
     }
 
     private void SpawnGem()
@@ -130,6 +129,7 @@ public class LevelManager : MonoBehaviour
                 Destroy(enemy);
             }
         }
+        _enemies.Clear();
     }
 
     private void DespawnGem()
