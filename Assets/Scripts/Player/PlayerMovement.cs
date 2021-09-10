@@ -43,7 +43,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rb2D.velocity = new Vector2(_input.Direction * movementSpeed, _rb2D.velocity.y);
+        _rb2D.velocity = _combat.IsDead ? 
+                Vector2.zero : 
+                new Vector2(_input.Direction * movementSpeed, _rb2D.velocity.y);
     }
 
     private void Jump()
