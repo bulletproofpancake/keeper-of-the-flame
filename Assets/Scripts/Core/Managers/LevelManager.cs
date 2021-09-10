@@ -100,7 +100,9 @@ public class LevelManager : MonoBehaviour
         {
             for (int i = 0; i < points.Length; i++)
             {
-                _enemies[i].transform.position = points[i].transform.position;
+                if(_enemies[i] != null){
+                    _enemies[i].transform.position = points[i].transform.position;
+                }
             }
         }
     }
